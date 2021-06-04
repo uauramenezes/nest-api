@@ -71,7 +71,7 @@ export class AuthService {
 
   async delete(user: User) {
     const result = await this.usersService.delete(user.id);
-    if (result.affected > 0) return { ok: 'Done' };
+    if (result.affected > 0) return { ok: 'user deleted' };
     throw new NotFoundException();
   }
 
@@ -91,10 +91,10 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<User | number> {
     const user = await this.usersService.findOne(email);
-    const match = await bcrypt.compare(password, user.password);
-
-    if (user && match) return user;
     if (!user) return 404;
+
+    const match = await bcrypt.compare(password, user.password);
+    if (user && match) return user;
     return 401;
   }
 }
