@@ -20,6 +20,10 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { email: email } });
   }
 
+  update(user: User, updateUser: UserDto) {
+    return this.usersRepository.update(user.id, updateUser);
+  }
+
   delete(id: string): Promise<DeleteResult> {
     return this.usersRepository.delete(id);
   }

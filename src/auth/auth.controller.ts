@@ -9,6 +9,7 @@ import {
   Get,
   Delete,
   Body,
+  Put,
 } from '@nestjs/common';
 import { User } from 'src/users/users.entity';
 
@@ -25,6 +26,12 @@ export class AuthController {
   @Post('login')
   async login(@Request() req) {
     return this.authService.login(req.user);
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Put('update')
+  updateUser(@Request() req) {
+    return this.authService.update(req.user, req.body.update);
   }
 
   @UseGuards(JwtAuthGuard)
