@@ -1,17 +1,15 @@
 services:
-    web:
-        image: nest-api
-        build: .
-        volumes:
-            - ./:/app/nest-api
-        env_file: 
-            - ./.env
-        ports:
-            - "3000:3000"
-    pg_db:
-        image: postgres
-        volumes:
-            - ./data/db:/var/lib/postgresql/data
-        env_file:
-            - ./.env
-
+  api:
+    build: .
+    env_file:
+      - ./.env
+    ports:
+      - '3000:3000'
+    depends_on:
+      - pg_db
+  pg_db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    env_file:
+      - ./.env
