@@ -14,16 +14,7 @@ import { UsersModule } from './users/users.module';
       ttl: 60,
       limit: 10,
     }),
-    TypeOrmModule.forRoot({
-      port: 5432,
-      type: 'postgres',
-      synchronize: false,
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      entities: ['dist/**/*.entity{.ts,.js}'],
-    }),
+    TypeOrmModule.forRoot({}),
   ],
 })
 export class AppModule {}
