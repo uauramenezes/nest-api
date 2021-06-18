@@ -1,73 +1,106 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Nest API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+An authentication API built with Nest.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- Basic CRUD requests.
+- Return JWT for authorization.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Built with
 
-## Installation
+- Nest
+- Docker
+- TypeORM
+- TypeScript
+- PostgresQL
 
-```bash
-$ npm install
+## About
+
+The objective of this project was to practice the use of a few tools, mainly Nest and JWT (Jason Web Token).
+
+With it, I learned Nest architecture and the framework core fundamentals. And also how Nest built its controllers, modules and services and how each component communicates with each other.
+
+By building an authentication API with authorization, I could practice how Nest handles it, using guards and strategies, and learn how JWT works.
+
+Lastly, I also used Docker, docker-compose and Docker Hub to build an application that runs on different platforms with ease.
+
+## Setup
+
+### With Docker
+
+The easier way to test this API locally is using Docker. For that, you need [Docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/) (Linux) installed.
+
+Create a docker-compose.yml file and paste the following:
+
+```docker-compose.yml
+services:
+  nest_api:
+    image: uauramenezes/nest-api
+    env_file:
+      - ./.env
+    ports:
+      - '3000:3000'
+    depends_on:
+      - pg_db
+  pg_db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    env_file:
+      - ./.env
 ```
 
-## Running the app
+Create a .env file and paste these values (only for development):
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```.env
+# key=value
+DB_PORT=5432
+DB_HOST=pg_db
+DB_TYPE=postgres
+DB_NAME=database
+DB_USER=username
+DB_PASSWORD=password
+SECRET_KEY=Secret_Key
+POSTGRES_DB=database
+POSTGRES_USER=username
+POSTGRES_PASSWORD=password
 ```
 
-## Test
+Then, on the folder containing the two files, build and run docker-compose by running
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+docker-compose up
 ```
 
-## Support
+### Without Docker
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To build this project locally without Docker you'll need [Node.js](https://nodejs.org/en/), [PostgreSQL](https://www.postgresql.org/download/), [Yarn](https://yarnpkg.com/getting-started/install) and the [Nest CLI](https://docs.nestjs.com/) installed. Then:
 
-## Stay in touch
+```sh
+# clone this repository
+git clone https://github.com/uauramenezes/nest-api.git
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# navigate to the project folder
+cd nest-api
+```
 
-## License
+Create a .env file and paste these keys, make sure the values are the same used in PostgreSQL:
 
-Nest is [MIT licensed](LICENSE).
+```.env
+# key=value
+DB_PORT=5432
+DB_USER=postgres
+DB_TYPE=postgres
+DB_NAME=postgres
+DB_HOST=localhost
+DB_PASSWORD=postgres
+SECRET_KEY=Secret_key
+```
+
+Then install the dependencies and start the app:
+
+```sh
+yarn install
+yarn start
+```
